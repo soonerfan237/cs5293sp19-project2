@@ -7,6 +7,8 @@ import os
 import pdb
 import sys
 
+
+sys.path.append("/usr/lib/python3/dist-packages")
 import nltk
 from nltk import sent_tokenize
 from nltk import word_tokenize

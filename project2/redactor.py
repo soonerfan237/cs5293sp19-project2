@@ -94,27 +94,53 @@ def replace(match): #function to replace contents with X's
             redacted_string = redacted_string + "X" #replace with X
     return redacted_string #return redacted string
 
+def replace_string(match):
+    redacted_string = ""
+    for i in range(0,len(match)):
+        if match[i] == " ":
+            redacted_string = redacted_string + " " #leave the space
+        else: #if other character
+            redacted_string = redacted_string + "X" #replace with X
+    return redacted_string #return redacted string
+
+
 def redact_names(input_string,file_count): #function to redact names
     print("REDACTING NAMES...")
     #print("file_count = " + str(file_count))
     redacted_names[file_count] = 0 #intializing list to store number of redacted names
     output_string = input_string #initializing output string of redacted results
-    sentences = nltk.sent_tokenize(output_string) #tokenizing string into sentences
-    for sentence in sentences: #for each sentence
-        #print("SENTENCE: " + sentence)
-        redacted_sentence = sentence #initializing redacted sentence
-        words = nltk.word_tokenize(sentence) #tokenizing each word in sentence
-        tags = nltk.pos_tag(words) #tagging words
-        chunks = nltk.ne_chunk(tags) #chunking word tags
-        for chunk in chunks: #for each chunk
-            if isinstance(chunk,nltk.tree.Tree): #if it finds a tree
-                if chunk.label() == 'PERSON': #and the tree is a person
-                    #print(chunk)
-                    redacted_names[file_count] = redacted_names[file_count] + 1 #iterate count of redacted names
-                    for wordtag in chunk: #for each word in the chunk
-                        #print(wordtag[0])
-                        redacted_sentence = redacted_sentence.replace(wordtag[0],'X' * len(wordtag[0])) #replacing redacted words with X's
-                        output_string = output_string.replace(sentence,redacted_sentence) #replacing redacted sentence into full text
+    #print(text)
+    #get_entity(text)
+    for sent in nltk.sent_tokenize(input_string):
+        for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
+            if hasattr(chunk, 'label') and chunk.label() == 'PERSON':
+                #print(chunk.label(), ' '.join(c[0] for c in chunk.leaves()))
+                name = ' '.join(c[0] for c in chunk.leaves())
+                output_string = output_string.replace(name,replace_string(name))
+                redacted_names[file_count] = redacted_names[file_count] + 1
+                #print(name)
+                #labels_text_name.append([text_path,name])
+                #features = get_features(text_path,name)
+                #print(features)
+
+    
+    
+    #sentences = nltk.sent_tokenize(output_string) #tokenizing string into sentences
+    #for sentence in sentences: #for each sentence
+    #    #print("SENTENCE: " + sentence)
+    #    redacted_sentence = sentence #initializing redacted sentence
+    #    words = nltk.word_tokenize(sentence) #tokenizing each word in sentence
+    #    tags = nltk.pos_tag(words) #tagging words
+    #    chunks = nltk.ne_chunk(tags) #chunking word tags
+    #    for chunk in chunks: #for each chunk
+    #        if isinstance(chunk,nltk.tree.Tree): #if it finds a tree
+    #            if chunk.label() == 'PERSON': #and the tree is a person
+    #                #print(chunk)
+    #                redacted_names[file_count] = redacted_names[file_count] + 1 #iterate count of redacted names
+    #                for wordtag in chunk: #for each word in the chunk
+    #                    #print(wordtag[0])
+    #                    redacted_sentence = redacted_sentence.replace(wordtag[0],'X' * len(wordtag[0])) #replacing redacted words with X's
+    #                    output_string = output_string.replace(sentence,redacted_sentence) #replacing redacted sentence into full text
         #print("REDACTED: " + redacted_sentence)
     return output_string #returning redacted text
 

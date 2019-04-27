@@ -42,7 +42,7 @@ def get_entity_test(text_path):
     with io.open(text_path, 'r', encoding='utf-8') as fyl:
         text = fyl.read()
         #print (text)
-        matches = re.findall(r'XX* ?X*? ?X*?',text)
+        matches = re.findall(r'XXX* ?X*? ?X*?',text)
         #print (matches)
         for match in matches:
             match = match.strip()

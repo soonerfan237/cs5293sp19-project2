@@ -41,12 +41,13 @@ def get_entity_test(text_path):
     entity_set_test = []
     with io.open(text_path, 'r', encoding='utf-8') as fyl:
         text = fyl.read()
-        #print (text)
-        matches = re.findall(r'XXX* ?X*? ?X*?',text)
+        print (text)
+        matches = re.findall(r'XXX* ?X?X*? ?X*X',text)
         #print (matches)
         for match in matches:
             match = match.strip()
             entity_set_test.append([text_path,match])
+    print(entity_set_test)
     return entity_set_test
 
 def get_entity_validation(text_path_redacted):

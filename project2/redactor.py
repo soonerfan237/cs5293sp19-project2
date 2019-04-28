@@ -236,6 +236,7 @@ def outputfile(original_file, args_output, redactedtext): #function to output re
     original_file_path = cwd + '/' + original_file #getting path of original file
     redacted_file_name = os.path.basename(original_file_path) + ".redacted" #generating path for redacted file
     redacted_file_path = output_directory + redacted_file_name #generating redacted file path
+    print("REDACTED FILE: " + redacted_file_path)
     with open(redacted_file_path, 'w') as redacted_file: #open redacted file
         redacted_file.write(redactedtext) #write redacted contents to file
 

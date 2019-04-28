@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
+import argparse #for parsing command line arguments
 import glob
 import io
 import os
@@ -68,9 +68,11 @@ def get_entity_validation(text_path_redacted):
                     names.append(name)
     return names
 
-def doextraction(glob_text):
+def doextraction(glob_text,arg_training):
     """Get all the files from the given glob and pass them to the extractor."""
     max_training_files = 20
+    if not (not arg_training):
+        max_training_files = arg_training
     count_training_files = 0
     for text_path in glob.glob('aclImdb/train/neg/*.txt'):
     #for text_path in glob.glob(glob_text):
@@ -185,5 +187,9 @@ def get_features_test(text_path,name):
     return {'textlength' : int(len(text)/10), 'sentiment' : sentiment, 'namelength' : len(name),'most_common_word' : most_common_word, 'num_of_spaces' : num_of_spaces}
 
 if __name__ == '__main__':
-    # Usage: python3 entity-extractor.py 'train/pos/*.txt'
-    doextraction(sys.argv[-1])
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str,required=True,help="Files to be unredacted.")
+    parser.add_argument("--training", type=int,help="Number of files to use in training")
+    args = parser.parse_args()
+    if args.input:
+        doextraction(args.input,args.training)

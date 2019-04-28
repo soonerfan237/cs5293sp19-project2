@@ -113,10 +113,10 @@ def doextraction(glob_text,arg_training):
     #for text_path in glob.glob('aclImdb/test_redacted/*/*.txt.redacted'):
         if not ("redacted" in text_path):
             text_folder_path = text_path[0:text_path.rfind('/')+1]
-            redactor.main([text_path], text_folder_path, True, False, False, False, False, "stdout",[])
+            redactor.main([text_path], text_folder_path, True, False, False, False, False, None,[])
             text_path = text_path + ".redacted"
         count_test_files = count_test_files + 1
-        print("text_path = " + text_path)
+        #print("text_path = " + text_path)
         entity_set_validation = get_entity_validation(text_path)
         if not ("urls_" in text_path):
             #print("valid path....")
@@ -130,9 +130,9 @@ def doextraction(glob_text,arg_training):
                 #print(entity_set_validation)
                 if result in entity_set_validation:
                     validation_correct = validation_correct + 1
-                    print("Prediction " + result + "is CORRECT!!!!")
+                    print("Prediction " + result + " is CORRECT!!!!")
                 else:
-                    print("Prediction " + result + "is WRONG!!!!")
+                    print("Prediction " + result + " is WRONG!!!!")
         if count_test_files > 100:
             print("checked enough test files... moving on.")
             break

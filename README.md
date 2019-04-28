@@ -1,7 +1,7 @@
 Here is an example command to run the unredactor:
-pipenv run python project2/unredactor.py 'aclImdb/test_redacted/neg/7*.txt'
+pipenv run python project2/unredactor.py --input 'aclImdb/test/*/0_*.txt' --training 20
 
-The command line argument should be the files that you wish to unredact.  You can pass files that are already redacted.  This is detected by looking for a .redacted extension.  If you pass files that have not been redacted yet, the code will automatically redact names from the files and store the results in the same location with a .redacted extension.
+The command line argument "input" should be the files that you wish to unredact.  You can pass files that are already redacted.  This is detected by looking for a .redacted extension.  If you pass files that have not been redacted yet, the code will automatically redact names from the files and store the results in the same location with a .redacted extension.  You can also supply a "training" command line argument.  This should be an integer value and corresponds to the amount of files you wish to use during the training period.
 
 When redacting names, the code will use nltk to look for chunks that have the PERSON tag.  Those chunks will be replaced by a series of Xs in the redacted files.  Spaces will be preserved.
 

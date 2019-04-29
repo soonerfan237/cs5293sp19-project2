@@ -72,6 +72,7 @@ def get_entity_validation(text_path_redacted):
 
 def doextraction(glob_text,arg_training):
     """Get all the files from the given glob and pass them to the extractor."""
+    final_result = ""
     max_training_files = 20
     if not (not arg_training):
         max_training_files = arg_training
@@ -121,13 +122,14 @@ def doextraction(glob_text,arg_training):
         #print("text_path = " + text_path)
         entity_set_validation = get_entity_validation(text_path)
         if not ("urls_" in text_path):
-            #print("valid path....")
+            print("valid path....")
             entity_set_test = get_entity_test(text_path)
             for entity in entity_set_test:
                 validation_total = validation_total + 1
                 #print(entity)
                 result = classifier.classify(get_features_test(entity[0], entity[1]))
-                #print("PREDICTION: " + result)
+                final_result = result
+                print("PREDICTION: " + result)
                 #print("VALIDATION:")
                 #print(entity_set_validation)
                 if result in entity_set_validation:
@@ -141,7 +143,8 @@ def doextraction(glob_text,arg_training):
     print("===============VALIDATION STATS=====================")
     print("total checked = " + str(validation_total))
     print("number correct = " + str(validation_correct))
-    
+    return validation_total, validation_correct, final_result
+
 def get_features_training(text_path,name):
     with io.open(text_path, 'r', encoding='utf-8') as fyl:
         text = fyl.read()

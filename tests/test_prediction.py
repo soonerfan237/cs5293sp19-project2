@@ -14,3 +14,6 @@ def test_featureset():
     assert 'I' == featureset['most_common_word']
     assert 1 == featureset['num_of_spaces']
 
+def test_prediction():
+    prediction = unredactor.doextraction('*/pos/4458_7.txt',20)
+    assert 'Sharon McManus' == prediction[2]

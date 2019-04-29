@@ -22,6 +22,8 @@ from nltk.corpus import stopwords
 from nltk.classify import apply_features
 
 labels_text_name = []
+def return_labels_text_name():
+    return labels_text_name
 
 def get_entity_training(text_path):
     """Prints the entity inside of the text."""

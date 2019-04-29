@@ -74,6 +74,8 @@ def main(args_input, args_output, args_names, args_genders, args_dates, args_add
         results = outputstats_stderr() #print stats to stderr
     elif(args_stats is not None): #if stats to file
         results = outputstats_file(args_stats) #print stats to file
+    else:
+        results = outputstats_stdout()
     return results #return redacted results
 
 def inputfiles(args_input):
